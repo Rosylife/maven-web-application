@@ -7,6 +7,7 @@ node{
  sh "${mavenHome}/bin/mvn clean package"
  //bat "${mavenHome}/bin/mvn clean package"
  }
+ /*
  stage('3codeQuality'){
  sh "${mavenHome}/bin/mvn sonar:sonar"
 }
@@ -39,3 +40,4 @@ Thanks
 Rosylife LTD''', recipientProviders: [buildUser(), developers(), upstreamDevelopers(), requestor(), brokenBuildSuspects(), brokenTestsSuspects(), contributor()], subject: 'build status', to: 'remezue@yahoo.com'
   }
 }
+*/
