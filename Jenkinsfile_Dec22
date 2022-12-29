@@ -16,7 +16,7 @@ node{
  }
 stage('5deploy2UAT'){
     sh "echo 'deploy to UAT'  "
-   deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: '**/*.war'
+   deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: 'target/*war'
 
 }
 stage('6approvalGate'){
@@ -26,7 +26,7 @@ stage('6approvalGate'){
       }
 }
 stage('7deploy2Prod'){
-        deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: 'target/*war'
 
 }
 stage('8emailNotification'){
