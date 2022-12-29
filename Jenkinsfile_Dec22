@@ -39,5 +39,5 @@ Thanks
 
 Rosylife LTD''', recipientProviders: [buildUser(), developers(), upstreamDevelopers(), requestor(), brokenBuildSuspects(), brokenTestsSuspects(), contributor()], subject: 'build status', to: 'remezue@yahoo.com'
   }
-*/
+  */
 }
