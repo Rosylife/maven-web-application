@@ -1,41 +1,40 @@
 node{
-  def mavenHome = tool name: 'Maven3.8.6'
+    def mavenHome = tool name: 'Maven3.8.6'
   stage('1cloneCode'){
-    git "https://github.com/LandmakTechnology/maven-web-application"
-  }
-  stage('2Test&Build'){
-    sh "${mavenHome}/bin/mvn clean package"
-    //bat "${mavenHome}/bin/mvn clean package"
-  }
-  stage('3codeQuality'){
-    sh "${mavenHome}/bin/mvn  sonar:sonar"
-  }
-  stage('4uploadArtifacts'){
-    //sh "${mavenHome}/bin/mvn deploy"
-    //http://52.53.227.31:8191/landmark/repository/tesla-fe-snapshots/
-    //http://52.53.227.31:8191/landmark/repository/tesla-fe-releases/
-    // vi pom.xml and added repository details   
-    // vi setting.xml and add AUTHENTICATION details  
-  } 
-  stage('5deploy2UAT'){
+    git "https://github.com/Rosylife/maven-web-application"
+ } 
+ stage('2Test&Build'){
+ sh "${mavenHome}/bin/mvn clean package"
+ //bat "${mavenHome}/bin/mvn clean package"
+ }
+ stage('3codeQuality'){
+ sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+ stage('4uploadArtifacts'){
+ //sh "${mavenHome}/bin/mvn deploy"
+ }
+stage('5deploy2UAT'){
     sh "echo 'deploy to UAT'  "
-    deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://35.170.249.131:8080/')], contextPath: null, war: 'target/*war'
-  }
-  stage('6approvalGate'){
+   deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: '**/*.war'
+
+}
+stage('6approvalGate'){
     sh "echo 'ready for review' "
     timeout(time:5, unit:'DAYS') {
     input message: 'Application ready for deployment, Please review and approve'
       }
-  }
-  stage('7deploy2Prod'){
-    sh "sleep  50"
-    deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://35.170.249.131:8080/')], contextPath: null, war: 'target/*war'
-  }
-  stage('8emailNotification'){
-    emailext body: '''Hi All,
+}
+stage('7deploy2Prod'){
+        deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.224.141.232:8080/')], contextPath: null, war: '**/*.war'
 
-Check Build status.
+}
+stage('8emailNotification'){
+    emailext body: '''Hi all 
 
-Landmark Technologies''', recipientProviders: [buildUser(), developers(), upstreamDevelopers(), brokenBuildSuspects(), brokenTestsSuspects(), contributor()], subject: 'build status', to: 'tesla-app@gmail.com'
+Check build status
+
+Thanks 
+
+Rosylife LTD''', recipientProviders: [buildUser(), developers(), upstreamDevelopers(), requestor(), brokenBuildSuspects(), brokenTestsSuspects(), contributor()], subject: 'build status', to: 'remezue@yahoo.com'
   }
 }
