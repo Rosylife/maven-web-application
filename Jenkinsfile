@@ -1,13 +1,13 @@
 pipeline{
   agent any 
   tools {
-    maven "maven3.6.0"
+    maven "Maven3.8.6"
   }  
   stages {
     stage('1GetCode'){
       steps{
         sh "echo 'cloning the latest application version' "
-        git branch: 'feature', credentialsId: 'gitHubCredentials', url: 'https://github.com/LandmakTechnology/maven-web-application'
+        git branch: 'master', credentialsId: 'gitHubCredentials', url: 'https://github.com/Rosylife/maven-web-application'
       }
     }
     stage('3Test+Build'){
@@ -31,7 +31,7 @@ pipeline{
     } 
     stage('8deploy2prod'){
       steps{
-        deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://35.170.249.131:8080/')], contextPath: null, war: 'target/*war'
+        deploy adapters: [tomcat9(credentialsId: 'c6a62915-539a-49fb-92f7-4356cf4ff5c0', path: '', url: 'http://18.219.196.158:8080/')], contextPath: null, war: 'target/*war'
       }
     }
 }
@@ -39,7 +39,6 @@ pipeline{
     always{
       emailext body: '''Hey guys
 Please check build status.
-
 Thanks
 Landmark 
 +1 437 215 2483''', recipientProviders: [buildUser(), developers()], subject: 'success', to: 'paypal-team@gmail.com'
@@ -47,7 +46,6 @@ Landmark
     success{
       emailext body: '''Hey guys
 Good job build and deployment is successful.
-
 Thanks
 Landmark 
 +1 437 215 2483''', recipientProviders: [buildUser(), developers()], subject: 'success', to: 'paypal-team@gmail.com'
@@ -55,7 +53,6 @@ Landmark
     failure{
       emailext body: '''Hey guys
 Build failed. Please resolve issues.
-
 Thanks
 Landmark 
 +1 437 215 2483''', recipientProviders: [buildUser(), developers()], subject: 'success', to: 'paypal-team@gmail.com'
